@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Plataforma Logística · Tecnolite</title>
+<link rel="icon" href="assets/icono.jpg">
+<style>
+  :root{
+    --naranja:#E8560F; --naranja2:#F08C14; --naranja-suave:#FFF3EA;
+    --gris:#4A4A4A; --gris2:#6B6B6B; --linea:#E6E1DC; --fondo:#F6F4F2; --blanco:#fff;
+    --verde:#1E8E4E; --verde-s:#E5F5EC; --azul:#1F6FB2; --azul-s:#E6F0FA;
+    --rojo:#C0392B; --rojo-s:#FBEAE8; --amarillo:#A86A00; --amarillo-s:#FFF4DB;
+    --gris-s:#EFEDEB;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--fondo);color:var(--gris);font-size:14px}
+  header{background:linear-gradient(120deg,var(--naranja) 0%,#EC6A10 55%,var(--naranja2) 100%);color:#fff;padding:18px 24px 64px}
+  .cab{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .cab img{height:46px}
+  .cab h1{margin:0;font-size:20px;font-weight:600;letter-spacing:.3px}
+  .cab .act{font-size:12px;opacity:.9;margin-top:2px}
+  main{max-width:1200px;margin:-44px auto 40px;padding:0 16px}
+  .panel{background:var(--blanco);border-radius:14px;box-shadow:0 4px 18px rgba(0,0,0,.07);padding:18px}
+  .busca{display:flex;gap:10px;flex-wrap:wrap}
+  .busca input{flex:1 1 320px;min-width:0;padding:12px 14px;border:1.5px solid var(--linea);border-radius:10px;font-size:15px;outline:none}
+  .busca input:focus{border-color:var(--naranja)}
+  .filtros{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:12px}
+  .filtros label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--gris2);display:block;margin-bottom:4px}
+  select,input[type=date]{width:100%;min-width:0;max-width:100%;padding:9px 10px;border:1.5px solid var(--linea);border-radius:8px;background:#fff;font-size:13px;color:var(--gris)}
+  .btn{border:0;border-radius:8px;padding:10px 14px;font-size:13px;cursor:pointer;font-weight:600}
+  .btn-sec{background:var(--gris-s);color:var(--gris)}
+  .btn-sec:hover{background:#E4E1DE}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0}
+  .kpi{background:#fff;border-radius:12px;padding:12px 14px;border:2px solid transparent;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.05);text-align:left;font:inherit;color:inherit}
+  .kpi:hover{border-color:var(--linea)}
+  .kpi.activo{border-color:var(--naranja)}
+  .kpi .n{font-size:24px;font-weight:700;color:var(--gris)}
+  .kpi .t{font-size:12px;color:var(--gris2);display:flex;align-items:center;gap:6px}
+  .punto{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .resumen{display:flex;justify-content:space-between;align-items:center;margin:6px 2px 10px;color:var(--gris2);font-size:13px;flex-wrap:wrap;gap:8px}
+  .lista{display:grid;gap:10px}
+  .card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:14px 16px;border-left:5px solid var(--linea)}
+  .card.Entregado{border-left-color:var(--verde)}
+  .card.EnRuta{border-left-color:var(--azul)}
+  .card.Novedad{border-left-color:var(--rojo)}
+  .card.Facturado{border-left-color:var(--amarillo)}
+  .card.Pendiente{border-left-color:#B5B0AB}
+  .c1{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start}
+  .ped{font-size:16px;font-weight:700;color:var(--gris)}
+  .ped small{font-weight:500;color:var(--gris2);font-size:12px;margin-left:6px}
+  .cli{font-size:14px;margin-top:2px}
+  .badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+  .b-Entregado{background:var(--verde-s);color:var(--verde)}
+  .b-EnRuta{background:var(--azul-s);color:var(--azul)}
+  .b-Novedad{background:var(--rojo-s);color:var(--rojo)}
+  .b-Facturado{background:var(--amarillo-s);color:var(--amarillo)}
+  .b-Pendiente{background:var(--gris-s);color:var(--gris2)}
+  .pasos{display:flex;align-items:center;margin:12px 0 10px;max-width:520px}
+  .paso{display:flex;flex-direction:column;align-items:center;font-size:10.5px;color:#A8A29D;width:70px;text-align:center}
+  .paso i{width:14px;height:14px;border-radius:50%;background:#DDD8D3;margin-bottom:4px;display:block}
+  .paso.ok{color:var(--gris)}
+  .paso.ok i{background:var(--naranja)}
+  .paso.nov i{background:var(--rojo)}
+  .barra{flex:1;height:3px;background:#DDD8D3;margin-bottom:16px;border-radius:2px}
+  .barra.ok{background:var(--naranja)}
+  .datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px 18px;margin-top:6px}
+  .dato .e{font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:#9A948F}
+  .dato .v{font-size:13px;word-break:break-word}
+  .ancho{grid-column:1/-1}
+  a.ver{display:inline-block;background:var(--naranja);color:#fff;text-decoration:none;padding:5px 12px;border-radius:7px;font-size:12px;font-weight:600}
+  a.ver:hover{background:#D24C0A}
+  .vacio{text-align:center;padding:40px;color:var(--gris2)}
+  .mas{display:block;margin:16px auto 0}
+  footer{text-align:center;color:#A8A29D;font-size:12px;padding:20px}
+  footer img{height:22px;opacity:.8;vertical-align:middle;margin-right:6px}
+  .mas[hidden]{display:none}
+  @media (max-width:600px){
+    header{padding:14px 16px 58px}.cab img{height:34px}.cab h1{font-size:16px}
+    main{padding:0 10px}.panel{padding:14px}
+    .busca input{flex-basis:100%}
+    .filtros,.kpis,.datos{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+    .kpi .n{font-size:20px}
+    .paso{width:58px;font-size:10px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="cab">
+    <img src="assets/logo-blanco.png" alt="Tecnolite Iluminación">
+    <div style="text-align:right">
+      <h1>Plataforma Logística</h1>
+      <div class="act" id="actualizado"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="panel">
+    <div class="busca">
+      <input id="q" type="search" placeholder="Buscar por pedido, cliente, factura, guía, RP/OUT o referencia del cliente…" autocomplete="off">
+      <button class="btn btn-sec" id="limpiar">Limpiar filtros</button>
+    </div>
+    <div class="filtros">
+      <div><label for="fVendedor">Vendedor</label><select id="fVendedor"></select></div>
+      <div><label for="fAlmacen">Almacén</label><select id="fAlmacen"></select></div>
+      <div><label for="fCiudad">Ciudad</label><select id="fCiudad"></select></div>
+      <div><label for="fTransp">Transportadora</label><select id="fTransp"></select></div>
+      <div><label for="fMes">Mes</label><select id="fMes"></select></div>
+      <div><label for="fDesde">Orden desde</label><input id="fDesde" type="date"></div>
+      <div><label for="fHasta">Orden hasta</label><input id="fHasta" type="date"></div>
+    </div>
+  </section>
+
+  <section class="kpis" id="kpis"></section>
+
+  <div class="resumen"><span id="conteo"></span><button class="btn btn-sec" id="csv">Descargar CSV</button></div>
+  <section class="lista" id="lista"></section>
+  <button class="btn btn-sec mas" id="mas" hidden>Ver más pedidos</button>
+</main>
+
+<footer><img src="assets/logo-color.png" alt="">Información tomada del Estatus de Despachos · Área de Logística</footer>
+
+<script>
+function iniciar(D){
+  const POR_PAGINA = 40;
+  const esVendedor = !!D.vendedor;
+  let pagina = 1, filtroEstado = '';
+
+  // Estado visible para el comercial
+  function estadoDe(p){
+    const e = (p.estado||'').toLowerCase();
+    if (e.startsWith('entreg')) return {k:'Entregado', t:'Entregado'};
+    if (e.includes('ruta'))     return {k:'EnRuta',    t:'En ruta'};
+    if (e.includes('novedad'))  return {k:'Novedad',   t:'Novedad'};
+    if (p.estado)               return {k:'EnRuta',    t:p.estado};
+    if (p.factura)              return {k:'Facturado', t:'Facturado · por despachar'};
+    return {k:'Pendiente', t:'Pendiente de facturar'};
+  }
+  const ESTADOS = [
+    {k:'',          t:'Todos los pedidos',  c:'#9A948F'},
+    {k:'Pendiente', t:'Pendiente de facturar', c:'#B5B0AB'},
+    {k:'Facturado', t:'Facturado · por despachar', c:'#A86A00'},
+    {k:'EnRuta',    t:'En ruta',   c:'#1F6FB2'},
+    {k:'Entregado', t:'Entregado', c:'#1E8E4E'},
+    {k:'Novedad',   t:'Novedad',   c:'#C0392B'}
+  ];
+
+  const norm = s => (s||'').toString().normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+  const esc  = s => (s||'').toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmtF = f => { if(!/^\d{4}-\d{2}-\d{2}$/.test(f||'')) return f||''; const [a,m,d]=f.split('-'); return `${d}/${m}/${a}`; };
+  const titulo = s => (s||'').toString().trim().toLowerCase().replace(/(^|[\s(\/.-])(\S)/g, (m,a,b) => a + b.toUpperCase());
+  // Una sola forma de escribir cada ciudad (prefiere la versión con tildes)
+  const ciudades = {};
+  D.pedidos.forEach(p => { const k = norm(p.ciudad); if(!k) return; const t = titulo(p.ciudad);
+    const tilde = x => /[^\x00-\x7f]/.test(x);
+    if(!ciudades[k] || (tilde(t) && !tilde(ciudades[k]))) ciudades[k] = t; });
+
+  D.pedidos.forEach(p => {
+    p._e = estadoDe(p);
+    p._ciudad = ciudades[norm(p.ciudad)] || '';
+    p._txt = norm([p.pedido,p.cliente,p.factura,p.guia,p.movimiento,p.refCliente,p.direccion,p.ciudad,p.vendedor,p.transp].join(' '));
+  });
+
+  const $ = id => document.getElementById(id);
+  $('actualizado').textContent = (esVendedor ? titulo(D.vendedor) + ' · ' : '') +
+    (D.generado ? 'Actualizado: ' + fmtF(D.generado.slice(0,10)) + ' ' + D.generado.slice(11) : 'Sin datos');
+  if (esVendedor) $('fVendedor').parentElement.hidden = true;
+
+  function llenar(sel, valores, todos){
+    const unicos = [...new Set(valores.filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
+    sel.innerHTML = `<option value="">${todos}</option>` + unicos.map(v=>`<option>${esc(v)}</option>`).join('');
+  }
+  llenar($('fVendedor'), D.pedidos.map(p=>p.vendedor), 'Todos');
+  llenar($('fAlmacen'),  D.pedidos.map(p=>p.almacen),  'Todos');
+  llenar($('fCiudad'),   D.pedidos.map(p=>p._ciudad),  'Todas');
+  llenar($('fTransp'),   D.pedidos.map(p=>p.transp),   'Todas');
+  $('fMes').innerHTML = '<option value="">Todos</option>' + [...D.meses].reverse().map(m=>`<option>${esc(m)}</option>`).join('');
+
+  // Filtros desde el enlace (?vendedor=...) o la última visita
+  const params = new URLSearchParams(location.search);
+  const guardado = JSON.parse(localStorage.getItem('tecnolite_filtros')||'{}');
+  const ini = k => params.get(k) ?? guardado[k] ?? '';
+  function fijar(sel, v){ if(!v) return; const o=[...sel.options].find(o=>norm(o.value)===norm(v)); if(o) sel.value=o.value; }
+  if (!esVendedor) fijar($('fVendedor'), ini('vendedor'));
+  fijar($('fAlmacen'),  ini('almacen'));
+  fijar($('fCiudad'),   ini('ciudad'));
+  fijar($('fTransp'),   ini('transportadora'));
+  fijar($('fMes'),      ini('mes'));
+  $('q').value = params.get('q') || '';
+  filtroEstado = params.get('estado') || guardado.estado || '';
+
+  function filtrados(sinEstado){
+    const q = norm($('q').value).split(/\s+/).filter(Boolean);
+    const v=$('fVendedor').value, a=$('fAlmacen').value, c=$('fCiudad').value, t=$('fTransp').value, m=$('fMes').value;
+    const d1=$('fDesde').value, d2=$('fHasta').value;
+    return D.pedidos.filter(p =>
+      (!v || p.vendedor===v) && (!a || p.almacen===a) && (!c || p._ciudad===c) &&
+      (!t || p.transp===t) && (!m || p.mes===m) &&
+      (!d1 || p.fechaOrden>=d1) && (!d2 || p.fechaOrden<=d2) &&
+      (sinEstado || !filtroEstado || p._e.k===filtroEstado) &&
+      q.every(w => p._txt.includes(w)));
+  }
+
+  function pasos(p){
+    const k = p._e.k;
+    const nivel = {Pendiente:1, Facturado:2, EnRuta:3, Novedad:3, Entregado:4}[k];
+    const nombres = ['Pedido','Facturado','Despachado','Entregado'];
+    let h = '<div class="pasos">';
+    nombres.forEach((n,i)=>{
+      if(i>0) h += `<div class="barra ${i<nivel?'ok':''}"></div>`;
+      const cls = i<nivel ? (k==='Novedad' && i===2 ? 'ok nov' : 'ok') : '';
+      h += `<div class="paso ${cls}"><i></i>${k==='Novedad'&&i===2?'Novedad':n}</div>`;
+    });
+    return h + '</div>';
+  }
+
+  const dato = (e,v,cls) => `<div class="dato ${cls||''}"><div class="e">${e}</div><div class="v">${v||'—'}</div></div>`;
+
+  function tarjeta(p){
+    const cump = p.cumplidoUrl
+      ? `<a class="ver" href="${esc(p.cumplidoUrl)}" target="_blank" rel="noopener">Ver cumplido</a>`
+      : esc(p.cumplido && p.cumplido!=='Ver cumplido' ? p.cumplido : '');
+    return `<article class="card ${p._e.k}">
+      <div class="c1">
+        <div><div class="ped">${esc(p.pedido)}<small>${esc(p.movimiento)}</small></div>
+             <div class="cli">${esc(p.cliente)}</div></div>
+        <span class="badge b-${p._e.k}">${esc(p._e.t)}</span>
+      </div>
+      ${pasos(p)}
+      <div class="datos">
+        ${dato('Fecha de la orden', fmtF(p.fechaOrden))}
+        ${dato('Almacén', esc(p.almacen))}
+        ${dato('Vendedor', esc(p.vendedor))}
+        ${dato('Ciudad', esc(p._ciudad))}
+        ${dato('Factura', esc(p.factura))}
+        ${dato('Transportadora', esc(p.transp))}
+        ${dato('No. guía', esc(p.guia))}
+        ${dato('Fecha de entrega', fmtF(p.fechaEnt))}
+        ${dato('Cumplido', cump)}
+        ${dato('Dirección', esc(p.direccion))}
+        ${dato('Referencia cliente', esc(p.refCliente), 'ancho')}
+      </div>
+    </article>`;
+  }
+
+  function guardar(){
+    const g = {vendedor:$('fVendedor').value, almacen:$('fAlmacen').value, ciudad:$('fCiudad').value,
+               transportadora:$('fTransp').value, mes:$('fMes').value, estado:filtroEstado};
+    localStorage.setItem('tecnolite_filtros', JSON.stringify(g));
+  }
+
+  function pintar(){
+    const base = filtrados(true);
+    const cuenta = {};
+    base.forEach(p => cuenta[p._e.k] = (cuenta[p._e.k]||0)+1);
+    $('kpis').innerHTML = ESTADOS.map(e => `<button class="kpi ${filtroEstado===e.k?'activo':''}" data-k="${e.k}">
+        <div class="n">${e.k ? (cuenta[e.k]||0) : base.length}</div>
+        <div class="t"><span class="punto" style="background:${e.c}"></span>${e.t}</div></button>`).join('');
+    const lista = filtroEstado ? base.filter(p=>p._e.k===filtroEstado) : base;
+    $('conteo').textContent = `${lista.length} pedido${lista.length===1?'':'s'}`;
+    const vis = lista.slice(0, pagina*POR_PAGINA);
+    $('lista').innerHTML = vis.length ? vis.map(tarjeta).join('') : '<div class="vacio">No hay pedidos con esos filtros.</div>';
+    $('mas').hidden = vis.length >= lista.length;
+    guardar();
+  }
+
+  let t;
+  $('q').addEventListener('input', ()=>{ clearTimeout(t); t=setTimeout(()=>{pagina=1;pintar();},180); });
+  ['fVendedor','fAlmacen','fCiudad','fTransp','fMes','fDesde','fHasta'].forEach(id => $(id).addEventListener('change', ()=>{pagina=1;pintar();}));
+  $('kpis').addEventListener('click', e => { const b=e.target.closest('.kpi'); if(!b) return; filtroEstado=b.dataset.k; pagina=1; pintar(); });
+  $('mas').addEventListener('click', ()=>{ pagina++; pintar(); });
+  $('limpiar').addEventListener('click', ()=>{
+    ['q','fVendedor','fAlmacen','fCiudad','fTransp','fMes','fDesde','fHasta'].forEach(id=>$(id).value='');
+    filtroEstado=''; pagina=1; pintar();
+  });
+  $('csv').addEventListener('click', ()=>{
+    const cols = [['Almacén','almacen'],['Vendedor','vendedor'],['Ciudad','_ciudad'],['Dirección','direccion'],['Cliente','cliente'],
+      ['Pedido','pedido'],['Movimiento','movimiento'],['Referencia cliente','refCliente'],['Factura','factura'],
+      ['Transportadora','transp'],['No. guía','guia'],['Estado',null],['Fecha orden','fechaOrden'],['Fecha entrega','fechaEnt'],['Cumplido','cumplidoUrl']];
+    const lista = filtrados(false);
+    const q = v => '"' + (v||'').toString().replace(/"/g,'""') + '"';
+    const filas = [cols.map(c=>q(c[0])).join(';')].concat(lista.map(p => cols.map(c => q(c[1] ? p[c[1]] : p._e.t)).join(';')));
+    const blob = new Blob(['﻿'+filas.join('\r\n')], {type:'text/csv;charset=utf-8'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'pedidos_tecnolite.csv'; a.click();
+  });
+
+  pintar();
+}
+</script>
+<script>
+// Carga los datos cifrados con la llave que viene en el enlace (#k=...)
+(function(){
+  const msg = t => { document.getElementById('lista').innerHTML = '<div class="vacio">'+t+'</div>'; document.getElementById('actualizado').textContent=''; };
+  let k = (new URLSearchParams(location.hash.slice(1))).get('k');
+  if (k) { localStorage.setItem('tecnolite_llave', k); history.replaceState(null,'',location.pathname); }
+  else k = localStorage.getItem('tecnolite_llave');
+  if (!k) return msg('Para ver sus pedidos abra el enlace personal que le envió el área de Logística.');
+  if (!window.crypto || !crypto.subtle) return msg('Su navegador no permite abrir esta página. Use Chrome, Edge o Safari actualizados.');
+  const b64 = s => Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/') + '==='.slice((s.length+3)%4)), c => c.charCodeAt(0));
+  const malo = () => { localStorage.removeItem('tecnolite_llave'); msg('Este enlace no es válido o ya no está activo. Solicite uno nuevo al área de Logística.'); };
+  let llave; try { llave = b64(k); } catch(e) { return malo(); }
+  msg('Cargando pedidos…');
+  crypto.subtle.digest('SHA-256', llave).then(h => {
+    const id = [...new Uint8Array(h).slice(0,16)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    const s = document.createElement('script');
+    s.src = 'data/v/' + id + '.js?t=' + Date.now();
+    s.onerror = malo;
+    s.onload = async () => {
+      try {
+        const todo = b64(window.DATOS_CIFRADOS);
+        const ck = await crypto.subtle.importKey('raw', llave, 'AES-CBC', false, ['decrypt']);
+        const plano = await crypto.subtle.decrypt({name:'AES-CBC', iv:todo.slice(0,16)}, ck, todo.slice(16));
+        iniciar(JSON.parse(new TextDecoder().decode(plano)));
+      } catch(e) { malo(); }
+    };
+    document.head.appendChild(s);
+  });
+})();
+</script>
+</body>
+</html>
